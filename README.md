@@ -1,7 +1,7 @@
 
 # vim-winsbar
 
-This plugin provides to show a window's scrollbar.
+This plugin provides that each window has a scrollbar.
 
 ![](https://raw.githubusercontent.com/rbtnn/vim-winsbar/master/winsbar.gif)
 
