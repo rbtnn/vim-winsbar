@@ -2,6 +2,7 @@
 let s:prev_args = get(s:, 'prev_args', [])
 let s:prev_winids = get(s:, 'prev_winids', [])
 let s:prev_timer = get(s:, 'prev_timer', -1)
+let s:prev_localtime = get(s:, 'prev_localtime', 0)
 
 function! winsbar#enabled() abort
     if has('popupwin')
@@ -76,14 +77,17 @@ function! s:timer_handler(timer) abort
                     \ ]]
             endif
         endfor
-        if s:prev_args != args
+        if (s:prev_args != args) || (s:prev_args == args && empty(s:prev_winids))
             for winid in s:prev_winids
                 call popup_close(winid)
             endfor
             let s:prev_winids = []
-            for xs in args
-                let s:prev_winids += call(function('s:set_scrollbar_in_window'), xs)
-            endfor
+            if 1 < localtime() - s:prev_localtime
+                for xs in args
+                    let s:prev_winids += call(function('s:set_scrollbar_in_window'), xs)
+                endfor
+                let s:prev_localtime = localtime()
+            endif
             let s:prev_args = args
         endif
     endif
