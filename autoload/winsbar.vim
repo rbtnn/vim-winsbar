@@ -9,7 +9,7 @@ function! winsbar#enabled() abort
         if -1 != s:prev_timer
             call timer_stop(s:prev_timer)
         endif
-        let s:prev_timer = timer_start(300, function('s:timer_handler'), #{ repeat: -1 })
+        let s:prev_timer = timer_start(100, function('s:timer_handler'), #{ repeat: -1 })
     endif
 endfunction
 
