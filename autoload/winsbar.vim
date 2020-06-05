@@ -77,12 +77,13 @@ function! s:timer_handler(timer) abort
                     \ ]]
             endif
         endfor
-        if (s:prev_args != args) || (s:prev_args == args && empty(s:prev_winids))
+        let no_scrolling = (s:prev_args == args && empty(s:prev_winids))
+        if (s:prev_args != args) || no_scrolling
             for winid in s:prev_winids
                 call popup_close(winid)
             endfor
             let s:prev_winids = []
-            if 1 < localtime() - s:prev_localtime
+            if (1 < localtime() - s:prev_localtime) || no_scrolling
                 for xs in args
                     let s:prev_winids += call(function('s:set_scrollbar_in_window'), xs)
                 endfor
